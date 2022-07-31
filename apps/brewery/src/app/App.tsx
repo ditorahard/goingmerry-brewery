@@ -24,6 +24,8 @@ import GitHub from './assets/icons/github.svg';
 import Terminal from './assets/icons/terminal.svg';
 import Heart from './assets/icons/heart.svg';
 
+import { Layout } from '@brewery/shared-ui-layout';
+
 export const App = () => {
   const [whatsNextYCoord, setWhatsNextYCoord] = useState<number>(0);
   const scrollViewRef = useRef<null | ScrollView>(null);
@@ -32,6 +34,7 @@ export const App = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
+        <Layout />
         <ScrollView
           ref={(ref) => {
             scrollViewRef.current = ref;

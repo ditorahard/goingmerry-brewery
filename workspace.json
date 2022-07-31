@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "brewery": "apps/brewery",
-    "brewery-e2e": "apps/brewery-e2e"
+    "brewery-e2e": "apps/brewery-e2e",
+    "shared-ui-layout": "libs/shared-ui-layout"
   }
 }
