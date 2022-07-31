@@ -11,18 +11,18 @@ import {
   Linking,
 } from 'react-native';
 
-import Checkmark from './icons/checkmark.svg';
-import Book from './icons/book.svg';
-import ChevronRight from './icons/chevron-right.svg';
-import Blog from './icons/blog.svg';
-import Courses from './icons/courses.svg';
-import YouTube from './icons/youtube.svg';
-import Pointer from './icons/pointer.svg';
-import VSCode from './icons/vscode.svg';
-import NxCloud from './icons/nx-cloud.svg';
-import GitHub from './icons/github.svg';
-import Terminal from './icons/terminal.svg';
-import Heart from './icons/heart.svg';
+import Checkmark from './assets/icons/checkmark.svg';
+import Book from './assets/icons/book.svg';
+import ChevronRight from './assets/icons/chevron-right.svg';
+import Blog from './assets/icons/blog.svg';
+import Courses from './assets/icons/courses.svg';
+import YouTube from './assets/icons/youtube.svg';
+import Pointer from './assets/icons/pointer.svg';
+import VSCode from './assets/icons/vscode.svg';
+import NxCloud from './assets/icons/nx-cloud.svg';
+import GitHub from './assets/icons/github.svg';
+import Terminal from './assets/icons/terminal.svg';
+import Heart from './assets/icons/heart.svg';
 
 export const App = () => {
   const [whatsNextYCoord, setWhatsNextYCoord] = useState<number>(0);
@@ -42,7 +42,10 @@ export const App = () => {
           <View style={styles.section}>
             <Text style={styles.textLg}>Hello there,</Text>
             <Text style={[styles.textXL, styles.appTitleText]} testID="heading">
-              Welcome Brewery 👋
+              Welcome to Brewery 👋
+            </Text>
+            <Text style={[styles.textXL, styles.appTitleText]} testID="heading">
+              Search here ...
             </Text>
           </View>
           <View style={styles.section}>
