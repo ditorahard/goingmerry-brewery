@@ -17,6 +17,7 @@
     "react-native-screens": "*",
     "@tanstack/react-query": "*",
     "axios": "*",
-    "zustand": "*"
+    "zustand": "*",
+    "@react-navigation/bottom-tabs": "*"
   }
 }

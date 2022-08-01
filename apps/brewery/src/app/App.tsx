@@ -10,9 +10,20 @@ import BrewerySearchScreen from './screens/BreweryList/BrewerySearchScreen';
 import BreweryListScreen from './screens/BreweryList/BreweryListScreen';
 import { NativeBaseProvider } from 'native-base';
 import { BookmarkScreen } from './screens/Bookmarks/BookmarksScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+const Tab = createBottomTabNavigator();
 const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
+
+function TabMenu() {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="Home" component={BreweryListScreen} />
+      <Tab.Screen name="Bookmarks" component={BookmarkScreen} />
+    </Tab.Navigator>
+  );
+}
 
 function App() {
   return (
@@ -22,7 +33,7 @@ function App() {
           <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
               name="Home"
-              component={BreweryListScreen}
+              component={TabMenu}
               options={{ title: 'My home' }}
             />
             <Stack.Screen

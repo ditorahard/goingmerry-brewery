@@ -9,6 +9,10 @@ const BrewerySearchScreen = (props) => {
   const { navigation } = props;
   const [searchQuery, setSearchQuery] = useState('');
   const [pageSize, setPageSize] = useState(20);
+  const handleFilterSpaces = (text) => {
+    return text.replace(' ', '_');
+  };
+
   const debouncedQuery = useDebounce(searchQuery, 1500);
   const { data, isLoading, isError } = useBreweriesSearch({
     query: debouncedQuery,

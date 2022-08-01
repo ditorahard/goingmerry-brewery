@@ -4,7 +4,7 @@ import { BreweriesRequest, BreweriesResponse } from '../dto/breweryDTO';
 
 export const useBreweriesSearch = (params: BreweriesRequest) => {
   const getBrewerySearchList = useBrewerySearchService();
-  return useQuery(['Breweries', params], async () => {
+  return useQuery(['BreweriesSearch', params], async () => {
     const res = await getBrewerySearchList(params);
     if (res) {
       return res;
