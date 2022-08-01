@@ -5,21 +5,23 @@ import BreweryItemView from './BreweryItemView';
 import { Errors } from '@brewery/shared-ui-layout';
 import useDebounce from '../../shared/helpers/useDebounce';
 import { useBreweries } from '../../modules/list/usecases/useBreweries';
-import useBookmark from '../../modules/bookmarks/usecases/useBookmark';
+import { useBookmark } from '../../modules/bookmarks/usecases/useBookmark';
 
 const BreweryListScreen = (props: BreweryListScreenProps) => {
   const { navigation } = props;
   const [pageSize, setPageSize] = useState(20);
+  const { addBookmark, setBookmarkCount, removeBookmark, errorMessage } =
+    useBookmark();
   const { data, isLoading, isError } = useBreweries();
   const handlePressLink = (item) => {
     navigation.navigate('Details', {
       id: item.id,
     });
   };
-  const increaseBookmark = useBookmark((state) => state.addABookmark);
 
   if (isLoading) return <LoadingState />;
   if (isError || !data) return <Errors />;
+  // testing purposes if (errorMessage.length > 0) return <Errors />;
 
   return (
     <Box>
@@ -36,7 +38,10 @@ const BreweryListScreen = (props: BreweryListScreenProps) => {
           <BreweryItemView
             {...item}
             onPressLink={() => handlePressLink(item)}
-            onPressBookmark={() => increaseBookmark()}
+            onPressBookmark={() => {
+              addBookmark(item);
+              setBookmarkCount();
+            }}
           />
         )}
         keyExtractor={(item) => item.id}

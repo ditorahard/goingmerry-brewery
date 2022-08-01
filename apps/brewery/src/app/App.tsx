@@ -9,6 +9,7 @@ import { BreweryDetailScreen } from './screens/BreweryList/BreweryDetailScreen';
 import BrewerySearchScreen from './screens/BreweryList/BrewerySearchScreen';
 import BreweryListScreen from './screens/BreweryList/BreweryListScreen';
 import { NativeBaseProvider } from 'native-base';
+import { BookmarkScreen } from './screens/Bookmarks/BookmarksScreen';
 
 const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
@@ -33,6 +34,11 @@ function App() {
               name="Search"
               component={BrewerySearchScreen}
               options={{ title: 'Search' }}
+            />
+            <Stack.Screen
+              name="Bookmarks"
+              component={BookmarkScreen}
+              options={{ title: 'Bookmarks' }}
             />
           </Stack.Navigator>
         </NavigationContainer>

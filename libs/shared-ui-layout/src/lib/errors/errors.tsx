@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Center, Text } from "native-base";
+import { Box, Center, Text } from 'native-base';
 
 /* eslint-disable-next-line */
-export interface ErrorsProps {}
+export type ErrorsProps = {};
 
 export function Errors(props: ErrorsProps) {
   return (
