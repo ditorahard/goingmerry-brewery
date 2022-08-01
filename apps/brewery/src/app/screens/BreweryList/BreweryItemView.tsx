@@ -1,8 +1,9 @@
 import React from 'react';
-import { Box, Text, HStack, Avatar, VStack, Spacer } from 'native-base';
+import { Box, Text, HStack, Avatar, VStack, Spacer, Link } from 'native-base';
 
 const BreweryItemView = (props) => {
-  const { type, name, street, city, state } = props;
+  const { type, name, street, city, state, onPressLink, onPressBookmark } =
+    props;
   return (
     <Box
       borderBottomWidth="1"
@@ -14,38 +15,53 @@ const BreweryItemView = (props) => {
       pr="5"
       py="2"
     >
-      <HStack space={3} justifyContent="space-between">
-        <VStack>
+      <Link
+        onPress={() => {
+          onPressLink();
+        }}
+        isExternal
+      >
+        <HStack space={3} justifyContent="space-between">
+          <VStack>
+            <Text
+              _dark={{
+                color: 'warmGray.50',
+              }}
+              color="coolGray.800"
+              bold
+            >
+              {name || ''}
+            </Text>
+            <Text
+              color="coolGray.400"
+              _dark={{
+                color: 'warmGray.200',
+              }}
+            >
+              {type || ''}
+            </Text>
+          </VStack>
+          <Spacer />
           <Text
+            fontSize="xs"
             _dark={{
               color: 'warmGray.50',
             }}
             color="coolGray.800"
-            bold
+            alignSelf="flex-start"
           >
-            {name || ''}
+            {street || '' + ' ' + city || '' + ' ' + state || ''}
           </Text>
-          <Text
-            color="coolGray.600"
-            _dark={{
-              color: 'warmGray.200',
-            }}
-          >
-            {type || ''}
-          </Text>
-        </VStack>
-        <Spacer />
-        <Text
-          fontSize="xs"
-          _dark={{
-            color: 'warmGray.50',
-          }}
-          color="coolGray.800"
-          alignSelf="flex-start"
-        >
-          {street || '' + ' ' + city || '' + ' ' + state || ''}
-        </Text>
-      </HStack>
+        </HStack>
+      </Link>
+      <Link
+        onPress={() => {
+          onPressBookmark();
+        }}
+        isExternal
+      >
+        <Text>Bookmark</Text>
+      </Link>
     </Box>
   );
 };

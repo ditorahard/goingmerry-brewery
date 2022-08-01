@@ -1,42 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'react-native';
 import { Box, Heading, FlatList, Center, Spinner, Input } from 'native-base';
 import BreweryItemView from './BreweryItemView';
 import { Errors } from '@brewery/shared-ui-layout';
 import useDebounce from '../../shared/helpers/useDebounce';
-import { useBreweries } from '../../modules/list/usecases/useBreweries';
-import useBookmark from '../../modules/bookmarks/usecases/useBookmark';
+import { useBreweriesSearch } from '../../modules/list/usecases/useBreweriesSearch';
 
-const BreweryListScreen = (props: BreweryListScreenProps) => {
+const BrewerySearchScreen = (props) => {
   const { navigation } = props;
+  const [searchQuery, setSearchQuery] = useState('');
   const [pageSize, setPageSize] = useState(20);
-  const { data, isLoading, isError } = useBreweries();
+  const debouncedQuery = useDebounce(searchQuery, 1500);
+  const { data, isLoading, isError } = useBreweriesSearch({
+    query: debouncedQuery,
+    per_page: pageSize,
+  });
   const handlePressLink = (item) => {
     navigation.navigate('Details', {
       id: item.id,
     });
   };
-  const increaseBookmark = useBookmark((state) => state.addABookmark);
+
+  const handleChange = (text) => setSearchQuery(text);
 
   if (isLoading) return <LoadingState />;
   if (isError || !data) return <Errors />;
 
   return (
     <Box>
-      <Button
-        title="Search breweries here ..."
-        onPress={() => navigation.navigate('Search')}
-      />
       <Heading fontSize="xl" p="4" pb="3">
         Breweries
       </Heading>
+      <Box alignItems="center">
+        <Input
+          mx="3"
+          placeholder="Search Brewery Here, e.g : Banjo"
+          onChangeText={handleChange}
+          value={searchQuery}
+        />
+      </Box>
       <FlatList
         data={data}
         renderItem={({ item }) => (
           <BreweryItemView
             {...item}
             onPressLink={() => handlePressLink(item)}
-            onPressBookmark={() => increaseBookmark()}
           />
         )}
         keyExtractor={(item) => item.id}
@@ -56,4 +63,4 @@ const LoadingState = () => {
   );
 };
 
-export default BreweryListScreen;
+export default BrewerySearchScreen;

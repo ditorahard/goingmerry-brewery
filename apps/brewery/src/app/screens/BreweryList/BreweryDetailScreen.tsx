@@ -1,42 +1,57 @@
 import React, { useEffect, useState } from 'react';
+import { ScrollView } from 'react-native';
 import {
   Image,
   Center,
   Pressable,
   Box,
   Text,
-  HStack,
+  VStack,
   Spinner,
+  Stack,
 } from 'native-base';
 import { useBrewery } from '../../modules/list/usecases/useBrewery';
 import { Errors } from '@brewery/shared-ui-layout';
 
-export const BreweryDetailScreen = () => {
+export const BreweryDetailScreen = (props) => {
+  const { route } = props;
+  const { id } = route.params;
   const { data, isLoading, isError } = useBrewery({
-    obdb_id: 'madtree-brewing-cincinnati',
+    obdb_id: id,
   });
 
   if (isLoading) return <LoadingState />;
   if (isError || !data) return <Errors />;
 
-  console.log('data', data);
+  const { name, brewery_type: type, street, city, state, updated_at } = data;
+  const formattedDateUpdated = new Date(updated_at).toDateString();
+
   return (
-    <Box flex="1">
-      <Center flex="1" bg="dark.200">
-        <HStack bg="black" p="4" safeAreaBottom>
-          <Text color="white" flex="1">
-            {data?.name}
+    <ScrollView>
+      <VStack space="2.5" mt="4" px="8">
+        <Stack mb="2.5" mt="1.5" direction="column" space={3}>
+          <Text color="black" flex="1">
+            {name}
           </Text>
-        </HStack>
-      </Center>
-    </Box>
+          <Text color="black" flex="1">
+            {type}
+          </Text>
+          <Text color="black" flex="1">
+            {street || '' + ' ' + city || '' + ' ' + state || ''}
+          </Text>
+          <Text color="black" flex="1">
+            {formattedDateUpdated}
+          </Text>
+        </Stack>
+      </VStack>
+    </ScrollView>
   );
 };
 
 const LoadingState = () => {
   return (
-    <Center flex="1" bg="dark.200">
-      <Spinner color="white" />
+    <Center flex="1">
+      <Spinner color="black" />
     </Center>
   );
 };

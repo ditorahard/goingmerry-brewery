@@ -10,16 +10,11 @@ export const useBrewery = (
   options?: UseQueryOptions<BreweryEntity | undefined, HttpResError>
 ) => {
   const getBrewery = useBreweryService();
-  console.log('params', params);
 
-  return useQuery<AxiosResponse<Brewery>>(
-    ['Brewery', params.obdb_id],
-    async () => {
-      const res = await getBrewery(params);
-      if (res) {
-        console.log('useQuery res', res);
-        return res;
-      }
+  return useQuery(['Brewery', params.obdb_id], async () => {
+    const res = await getBrewery(params);
+    if (res) {
+      return res;
     }
-  );
+  });
 };

@@ -19,7 +19,7 @@ export interface IApiClient {
     object: TRequest
   ): Promise<TResponse>;
   put<TRequest, TResponse>(path: string, object: TRequest): Promise<TResponse>;
-  get<TRequest, TResponse>(path: string, params: TRequest): Promise<TResponse>;
+  get<TRequest, TResponse>(data: any): Promise<TResponse>;
 }
 
 const BASE_URL = 'https://api.openbrewerydb.org';
@@ -84,12 +84,11 @@ export default class ApiClient implements IApiClient {
     return {} as TResponse;
   }
 
-  async get<TRequest, TResponse>(
-    path: string,
-    params: TRequest
-  ): Promise<TResponse> {
+  async get<TRequest, TResponse>(data: any): Promise<TResponse> {
     try {
-      const response = await this.client.get<TResponse>(path, params);
+      const { path, params } = data;
+      console.log('get data', data);
+      const response = await this.client.get<TResponse>(path, { params });
       return response.data;
     } catch (error) {
       console.log(error);

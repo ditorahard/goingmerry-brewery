@@ -12,12 +12,25 @@ const API = new ApiClient();
 export const useBreweryService = () => {
   return (data: BreweryRequest) => {
     const { obdb_id } = data;
-    return API.get<Brewery>(`/breweries/${obdb_id}`, {}).then((res) => res);
+    console.log('data useBrewery', data);
+    return API.get<BreweryRequest, Brewery>({
+      path: `/breweries/${obdb_id}`,
+      params: null,
+    }).then((res) => res);
   };
 };
 
 export const useBreweryListService = () => {
+  return () => {
+    return API.get({ path: `/breweries`, params: null }).then((res) => res);
+  };
+};
+
+export const useBrewerySearchService = () => {
   return (data: BreweriesRequest) => {
-    return API.get<BreweriesResponse>(`/breweries`, data).then((res) => res);
+    console.log('useBreweryListService', data);
+    return API.get({ path: `/breweries/search`, params: data }).then(
+      (res) => res
+    );
   };
 };
