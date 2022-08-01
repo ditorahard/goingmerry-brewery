@@ -1,13 +1,12 @@
 import Axios, { AxiosInstance } from 'axios';
 
 export type HttpHeaders = {
-    [key: string]: string;
-  };
-  
-export type RequestConfig = {
-headers: HttpHeaders;
+  [key: string]: string;
 };
 
+export type RequestConfig = {
+  headers: HttpHeaders;
+};
 
 export interface IApiClient {
   post<TRequest, TResponse>(
@@ -20,7 +19,7 @@ export interface IApiClient {
     object: TRequest
   ): Promise<TResponse>;
   put<TRequest, TResponse>(path: string, object: TRequest): Promise<TResponse>;
-  get<TResponse>(path: string): Promise<TResponse>;
+  get<TRequest, TResponse>(path: string, params: TRequest): Promise<TResponse>;
 }
 
 const BASE_URL = 'https://api.openbrewerydb.org';
@@ -28,8 +27,7 @@ const BASE_URL = 'https://api.openbrewerydb.org';
 export default class ApiClient implements IApiClient {
   private client: AxiosInstance;
 
-  protected createAxiosClient(
-  ): AxiosInstance {
+  protected createAxiosClient(): AxiosInstance {
     return Axios.create({
       baseURL: BASE_URL,
       responseType: 'json' as const,
@@ -55,7 +53,7 @@ export default class ApiClient implements IApiClient {
         : await this.client.post<TResponse>(path, payload);
       return response.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     return {} as TResponse;
   }
@@ -68,7 +66,7 @@ export default class ApiClient implements IApiClient {
       const response = await this.client.patch<TResponse>(path, payload);
       return response.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     return {} as TResponse;
   }
@@ -81,17 +79,20 @@ export default class ApiClient implements IApiClient {
       const response = await this.client.put<TResponse>(path, payload);
       return response.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     return {} as TResponse;
   }
 
-  async get<TResponse>(path: string): Promise<TResponse> {
+  async get<TRequest, TResponse>(
+    path: string,
+    params: TRequest
+  ): Promise<TResponse> {
     try {
-      const response = await this.client.get<TResponse>(path);
+      const response = await this.client.get<TResponse>(path, params);
       return response.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     return {} as TResponse;
   }

@@ -4,15 +4,16 @@ import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BreweryDetailScreen } from './screens/BreweryDetailScreen';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BreweryDetailScreen } from './screens/BreweryList/BreweryDetailScreen';
+import BreweryListScreen from './screens/BreweryList/BreweryListScreen';
 import { NativeBaseProvider } from 'native-base';
 
 const queryClient = new QueryClient();
 const BASE_URL = 'https://api.openbrewerydb.org';
 
 function HomeScreen(props) {
-  const {navigation} = props
+  const { navigation } = props;
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
@@ -21,14 +22,14 @@ function HomeScreen(props) {
         onPress={() => navigation.navigate('Details')}
       />
       <Button
-  title="Update the title"
-  onPress={() => navigation.setOptions({ title: 'Updated!' })}
-/>
+        title="Update the title"
+        onPress={() => navigation.setOptions({ title: 'Updated!' })}
+      />
     </View>
   );
 }
 
-function DetailsScreen({navigation}) {
+function DetailsScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Details Screen</Text>
@@ -36,7 +37,7 @@ function DetailsScreen({navigation}) {
         title="Go to Details... again"
         onPress={() => navigation.push('Details')}
       />
-       <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
       <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
@@ -47,18 +48,22 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-        <NativeBaseProvider>
-          <NavigationContainer>
+      <NativeBaseProvider>
+        <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
-            name="Home"
-            component={BreweryDetailScreen}
-            options={{ title: 'My home' }}
-          />
-            <Stack.Screen name="Details" component={DetailsScreen} options={{ title: 'Detail'}} />
+            <Stack.Screen
+              name="Home"
+              component={BreweryListScreen}
+              options={{ title: 'My home' }}
+            />
+            <Stack.Screen
+              name="Details"
+              component={DetailsScreen}
+              options={{ title: 'Detail' }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
-        </NativeBaseProvider>
+      </NativeBaseProvider>
     </QueryClientProvider>
   );
 }
