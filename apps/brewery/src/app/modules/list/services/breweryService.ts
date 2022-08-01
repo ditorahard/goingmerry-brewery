@@ -6,7 +6,6 @@ const API = new ApiClient();
 export const useBreweryService = () => {
   return (data: BreweryRequest) => {
     const { obdb_id } = data;
-    console.log('data useBrewery', data);
     return API.get({
       path: `/breweries/${obdb_id}`,
       params: null,

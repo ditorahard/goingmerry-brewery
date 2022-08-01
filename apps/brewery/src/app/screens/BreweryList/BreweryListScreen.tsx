@@ -6,41 +6,55 @@ import {
   Center,
   Spinner,
   Link,
-  Input,
   Text,
   Button,
-  Icon,
-  SearchIcon,
   Stack,
   HStack,
+  useToast,
 } from 'native-base';
 import BreweryItemView from './BreweryItemView';
 import { Errors } from '@brewery/shared-ui-layout';
-import useDebounce from '../../shared/helpers/useDebounce';
 import { useBreweries } from '../../modules/list/usecases/useBreweries';
 import { useBookmark } from '../../modules/bookmarks/usecases/useBookmark';
 import { Brewery } from '../../modules/list/dto/breweryDTO';
 
 const BreweryListScreen = (props) => {
   const { navigation } = props;
-  const { addBookmark, setBookmarkCount, removeBookmark, errorMessage } =
+  const toast = useToast();
+  const [pageSize, setPageSize] = useState(10);
+  const { addBookmark, setBookmarkCount, errorMessage, clearErrorMessage } =
     useBookmark();
   const {
     data,
     isLoading,
     isError,
   }: { data: Brewery[]; isLoading: boolean; isError: boolean } = useBreweries({
-    per_page: 10,
+    per_page: pageSize,
   });
+
   const handlePressLink = (item) => {
     navigation.navigate('Details', {
       id: item.id,
     });
   };
 
+  const handleBookmark = (item) => {
+    addBookmark(item);
+    setBookmarkCount();
+    if (errorMessage.length === 0) toast.show({ description: 'Bookmarked' });
+  };
+
   if (isLoading) return <LoadingState />;
   if (isError || !data) return <Errors />;
-  // testing purposes if (errorMessage.length > 0) return <Errors />;
+  if (errorMessage && errorMessage.length > 0) {
+    return (
+      <ItemBookmarked
+        onPressLink={() => {
+          clearErrorMessage();
+        }}
+      />
+    );
+  }
 
   return (
     <Box style={{ flex: 1 }}>
@@ -68,10 +82,7 @@ const BreweryListScreen = (props) => {
           <BreweryItemView
             {...item}
             onPressLink={() => handlePressLink(item)}
-            onPressBookmark={() => {
-              addBookmark(item);
-              setBookmarkCount();
-            }}
+            onPressBookmark={() => handleBookmark(item)}
           />
         )}
         keyExtractor={(item) => item.id}
@@ -84,6 +95,18 @@ const LoadingState = () => {
   return (
     <Center flex="1">
       <Spinner color="black" />
+    </Center>
+  );
+};
+
+const ItemBookmarked = (props) => {
+  const { onPressLink } = props;
+  return (
+    <Center flex="1">
+      <Box pt="4" flexDirection="column">
+        <Text>Duplicate Item. Item has already been bookmarked</Text>
+        <Link onPress={() => onPressLink()}>Back To Home</Link>
+      </Box>
     </Center>
   );
 };

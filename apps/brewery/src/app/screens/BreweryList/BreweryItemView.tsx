@@ -2,8 +2,16 @@ import React from 'react';
 import { Box, Text, HStack, Avatar, VStack, Spacer, Link } from 'native-base';
 
 const BreweryItemView = (props) => {
-  const { type, name, street, city, state, onPressLink, onPressBookmark } =
-    props;
+  const {
+    type,
+    name,
+    street,
+    city,
+    state,
+    onPressLink,
+    onPressBookmark,
+    onPressRemoveBookmark,
+  } = props;
   return (
     <Box
       borderBottomWidth="1"
@@ -17,7 +25,7 @@ const BreweryItemView = (props) => {
     >
       <Link
         onPress={() => {
-          onPressLink();
+          onPressLink && onPressLink();
         }}
         isExternal
       >
@@ -54,14 +62,26 @@ const BreweryItemView = (props) => {
           </Text>
         </HStack>
       </Link>
-      <Link
-        onPress={() => {
-          onPressBookmark();
-        }}
-        isExternal
-      >
-        <Text>Bookmark</Text>
-      </Link>
+      {onPressBookmark ? (
+        <Link
+          onPress={() => {
+            onPressBookmark();
+          }}
+          isExternal
+        >
+          <Text>Bookmark</Text>
+        </Link>
+      ) : null}
+      {onPressRemoveBookmark ? (
+        <Link
+          onPress={() => {
+            onPressRemoveBookmark();
+          }}
+          isExternal
+        >
+          <Text>Remove Bookmark</Text>
+        </Link>
+      ) : null}
     </Box>
   );
 };

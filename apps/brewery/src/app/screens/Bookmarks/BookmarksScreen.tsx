@@ -17,7 +17,7 @@ import { useBookmark } from '../../modules/bookmarks/usecases/useBookmark';
 import BreweryItemView from '../BreweryList/BreweryItemView';
 
 export const BookmarkScreen = (props) => {
-  const { bookmarkList, bookmarkCount } = useBookmark();
+  const { bookmarkList, bookmarkCount, removeBookmark } = useBookmark();
   return (
     <ScrollView>
       <Box mt="4" px="4">
@@ -27,7 +27,12 @@ export const BookmarkScreen = (props) => {
       </Box>
       <FlatList
         data={bookmarkList}
-        renderItem={({ item }) => <BreweryItemView {...item} />}
+        renderItem={({ item }) => (
+          <BreweryItemView
+            {...item}
+            onPressRemoveBookmark={() => removeBookmark(item.id)}
+          />
+        )}
         keyExtractor={(item) => item.id}
       />
     </ScrollView>

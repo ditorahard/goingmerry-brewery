@@ -9,6 +9,7 @@ interface BookmarkState {
   removeBookmark: (id: string) => void;
   setBookmarkCount: () => void;
   errorMessage: string;
+  clearErrorMessage: () => void;
 }
 
 export const useBookmark = create<BookmarkState>()(
@@ -41,6 +42,9 @@ export const useBookmark = create<BookmarkState>()(
         setBookmarkCount: () =>
           set({ bookmarkCount: get().bookmarkList.length }),
         errorMessage: '',
+        clearErrorMessage: () => {
+          set({ errorMessage: '' });
+        },
       }),
       {
         name: 'bookmarks-storage',

@@ -5,6 +5,11 @@ export type BreweriesRequest = {
   query?: string;
 };
 
+export type SearchBreweriesRequest = {
+  per_page?: number;
+  by_name?: string;
+};
+
 export type BreweriesResponse = Array<Brewery>;
 
 export type BreweryRequest = {

@@ -29,18 +29,18 @@ export const BreweryDetailScreen = (props) => {
   return (
     <ScrollView>
       <VStack space="2.5" mt="4" px="8">
-        <Stack mb="2.5" mt="1.5" direction="column" space={3}>
-          <Text color="black" flex="1">
+        <Stack mb="2.5" mt="1.5" direction="column">
+          <Text color="black" flex="1" fontSize="2xl" fontWeight="700">
             {name}
           </Text>
-          <Text color="black" flex="1">
-            {type}
+          <Text color="black" flex="1" fontSize="xl">
+            {'Brewery Type : ' + type}
+          </Text>
+          <Text color="black" flex="1" fontSize="md">
+            {'Address : ' + street || '' + ' ' + city || '' + ' ' + state || ''}
           </Text>
           <Text color="black" flex="1">
-            {street || '' + ' ' + city || '' + ' ' + state || ''}
-          </Text>
-          <Text color="black" flex="1">
-            {formattedDateUpdated}
+            {'Updated At : ' + formattedDateUpdated}
           </Text>
         </Stack>
       </VStack>
